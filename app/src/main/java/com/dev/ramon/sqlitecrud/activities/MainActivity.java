@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i = 1; i <= 10; i++) {
             course = new Course();
-            course.setNome("Curso "+i);
+            course.setName("Curso "+i);
             list.add(course);
         }
 

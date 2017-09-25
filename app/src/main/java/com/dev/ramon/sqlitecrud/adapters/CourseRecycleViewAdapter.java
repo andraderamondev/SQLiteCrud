@@ -40,7 +40,7 @@ public class CourseRecycleViewAdapter extends RecyclerView.Adapter<CourseRecycle
 
     @Override
     public void onBindViewHolder(CourseRecycleViewAdapter.ViewHolder holder, int position) {
-        holder.tvNome.setText(list.get(position).getNome());
+        holder.tvNome.setText(list.get(position).getName());
     }
 
     @Override

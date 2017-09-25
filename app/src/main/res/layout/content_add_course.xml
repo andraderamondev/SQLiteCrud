@@ -11,7 +11,7 @@
     tools:showIn="@layout/activity_add_course">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -20,13 +20,13 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="100dp"
         android:ems="10"
         android:hint="Descrição"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:minHeight="100dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         android:layout_marginBottom="5dp">
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/etClassHours"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -58,7 +58,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

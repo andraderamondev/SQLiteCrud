@@ -24,7 +24,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         getValuesExtras(getIntent().getExtras());
-        toolbar.setTitle(course.getNome());
+        toolbar.setTitle(course.getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

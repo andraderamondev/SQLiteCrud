@@ -8,23 +8,26 @@ import android.os.Parcelable;
  */
 
 public class Course implements Parcelable {
-    private String nome;
-    private String descricao;
+    private int id;
+    private String name;
+    private String description;
     private int classHours;
 
     public Course() {
     }
 
     protected Course(Parcel in) {
-        nome = in.readString();
-        descricao = in.readString();
+        id = in.readInt();
+        name = in.readString();
+        description = in.readString();
         classHours = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(nome);
-        parcel.writeString(descricao);
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(description);
         parcel.writeInt(classHours);
     }
 
@@ -45,20 +48,28 @@ public class Course implements Parcelable {
         }
     };
 
-    public String getNome() {
-        return nome;
+    public int getId() {
+        return id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getName() {
+        return name;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setName(String nome) {
+        this.name = nome;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String descricao) {
+        this.description = descricao;
     }
 
     public int getClassHours() {
