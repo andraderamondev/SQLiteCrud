@@ -3,6 +3,10 @@ package com.dev.ramon.sqlitecrud.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Ramon Dev on 21/09/2017.
  */
@@ -12,6 +16,8 @@ public class Course implements Parcelable {
     private String name;
     private String description;
     private int classHours;
+    private boolean status;
+    public String dt;
 
     public Course() {
     }
@@ -21,6 +27,7 @@ public class Course implements Parcelable {
         name = in.readString();
         description = in.readString();
         classHours = in.readInt();
+        status = in.readByte() != 0;
     }
 
     @Override
@@ -29,6 +36,7 @@ public class Course implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeInt(classHours);
+        parcel.writeByte((byte)(status ? 1 : 0));
     }
 
     @Override
@@ -78,5 +86,13 @@ public class Course implements Parcelable {
 
     public void setClassHours(int classHours) {
         this.classHours = classHours;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

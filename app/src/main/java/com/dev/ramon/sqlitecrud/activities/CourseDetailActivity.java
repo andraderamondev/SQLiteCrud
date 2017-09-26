@@ -7,12 +7,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.objects.Course;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CourseDetailActivity extends AppCompatActivity {
     private Course course;
@@ -25,6 +30,12 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         getValuesExtras(getIntent().getExtras());
         toolbar.setTitle(course.getName());
+
+        /*DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        String dt = dateFormat.format(date).toString();
+        Log.i("ERROR","Ops: "+dt);*/
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

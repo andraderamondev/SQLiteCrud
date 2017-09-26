@@ -9,10 +9,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dev.ramon.sqlitecrud.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.adapters.CourseRecycleViewAdapter;
 import com.dev.ramon.sqlitecrud.objects.Course;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView rvCourses;
+    BDSQLiteHelper dBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +43,17 @@ public class MainActivity extends AppCompatActivity {
         addListeners();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        addListeners();
+    }
+
     private void addListeners() {
         rvCourses.setHasFixedSize(true);
         rvCourses.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvCourses.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        rvCourses.setAdapter(new CourseRecycleViewAdapter(recuperarListaDeProfessores(), new CourseRecycleViewAdapter.OnClickListener() {
+        rvCourses.setAdapter(new CourseRecycleViewAdapter(getAllCourses(), new CourseRecycleViewAdapter.OnClickListener() {
             @Override
             public void onClickItemList(Course course, int position) {
                 Intent intent = new Intent(MainActivity.this, CourseDetailActivity.class);
@@ -54,16 +63,12 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
-    private ArrayList<Course> recuperarListaDeProfessores() {
+    private ArrayList<Course> getAllCourses() {
+        dBHelper = new BDSQLiteHelper(this);
         ArrayList<Course> list = new ArrayList<>();
-        Course course;
-
-        for(int i = 1; i <= 10; i++) {
-            course = new Course();
-            course.setName("Curso "+i);
+        for(Course course : dBHelper.getCourses()) {
             list.add(course);
         }
-
         return list;
     }
 }
