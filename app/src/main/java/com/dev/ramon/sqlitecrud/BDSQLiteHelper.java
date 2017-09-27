@@ -19,9 +19,10 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "CourseDB";
     private static final String TABLE = "course";
     private static final String[] COLUMN = {"id","name","description","classHours","registerDate","status"};
-
+    SQLiteDatabase db;
     public BDSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        db = this.getWritableDatabase();
     }
 
     @Override
@@ -43,7 +44,6 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public void addCourse(Course course) {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", course.getName());
         values.put("description", course.getDescription());
@@ -76,7 +76,6 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
     public ArrayList<Course> getCourses() {
         ArrayList<Course> list = new ArrayList<Course>();
         String query = "SELECT * FROM " + TABLE + " ORDER BY registerDate DESC";
-        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
@@ -86,6 +85,10 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return list;
+    }
+
+    public void removeCourse(Course course){
+        db.delete(TABLE, "id = " + course.getId(), null);
     }
 
     private Course parceCourse(Cursor cursor) {

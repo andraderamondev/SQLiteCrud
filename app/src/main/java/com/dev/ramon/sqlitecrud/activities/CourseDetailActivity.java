@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.dev.ramon.sqlitecrud.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.objects.Course;
 
@@ -27,6 +29,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     TextView tvClassHours;
     TextView tvStatus;
     TextView tvRegisterDate;
+    BDSQLiteHelper SQLHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +89,10 @@ public class CourseDetailActivity extends AppCompatActivity {
         builder.setMessage("Deseja realmente excluir esse curso?");
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                //
+                SQLHelper = new BDSQLiteHelper(CourseDetailActivity.this);
+                SQLHelper.removeCourse(course);
+                Toast.makeText(CourseDetailActivity.this,"Curso removido",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
         builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {

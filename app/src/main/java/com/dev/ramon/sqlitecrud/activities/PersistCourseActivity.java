@@ -83,7 +83,7 @@ public class PersistCourseActivity extends AppCompatActivity {
             error++;
         }
         if(!etDescription.getText().toString().isEmpty()){
-            c.setName(etDescription.getText().toString());
+            c.setDescription(etDescription.getText().toString());
         }else{
             etDescription.setError("Preencha esse campo");
             error++;
