@@ -7,6 +7,6 @@
     <string name="action_edit">Editar</string>
     <string name="action_check">Concluir</string>
     <string name="action_add">Adicionar</string>
-    <string name="title_activity_add_course">AddCourseActivity</string>
+    <string name="title_activity_add_course">PersistCourseActivity</string>
     <string name="title_activity_course_detail">CourseDetailActivity</string>
 </resources>

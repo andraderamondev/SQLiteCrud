@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, AddCourseActivity.class);
+                Intent i = new Intent(MainActivity.this, PersistCourseActivity.class);
                 startActivity(i);
             }
         });
@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
             for (Course course : dBHelper.getCourses()) {
                 list.add(course);
             }
-        }catch (Exception E){
-            Toast.makeText(this,"Nenhum registro",Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
         return list;
     }

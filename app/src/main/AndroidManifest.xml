@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddCourseActivity"
+            android:name=".activities.PersistCourseActivity"
             android:label="@string/title_activity_add_course"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

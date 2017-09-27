@@ -4,37 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:padding="14dp"
     android:orientation="vertical"
+    android:background="#ddd"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.dev.ramon.sqlitecrud.activities.AddCourseActivity"
+    tools:context="com.dev.ramon.sqlitecrud.activities.PersistCourseActivity"
     tools:showIn="@layout/activity_add_course">
 
-    <EditText
-        android:id="@+id/etName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:ems="10"
-        android:hint="Nome"
-        android:inputType="textPersonName" />
+        android:orientation="vertical"
+        android:background="#fff"
+        android:elevation="4dp"
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/etDescription"
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:hint="Nome"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Descrição"
+            android:inputType="textMultiLine"
+            android:minHeight="100dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Descrição"
-        android:inputType="textMultiLine"
-        android:minHeight="100dp" />
+        android:layout_marginTop="10dp"
+        android:background="#fff"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:gravity="left"
+                android:text="Carga Horária" />
+
+            <TextView
+                android:id="@+id/tvClassHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:gravity="right"
+                android:text="10h" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="5dp">
+        android:background="#fff"
+        android:elevation="4dp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
 
-        <EditText
+        <!--EditText
             android:id="@+id/etClassHours"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,29 +94,33 @@
             android:ems="10"
             android:maxLength="2"
             android:digits="0123456789"
-            android:hint="Horas Aula"
-            android:inputType="numberDecimal" />
+            android:hint="Carga Horária"
+            android:inputType="numberDecimal" /-->
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="0.9"
+            android:gravity="left"
+            android:text="Status" />
 
         <Switch
             android:id="@+id/switch2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Status" />
+            android:layout_weight="0.1"
+            android:checked="true"
+            android:gravity="right"/>
 
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btSave"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Salvar" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:textColor="#fff"
+        android:text="Salvar" />
 
 </LinearLayout>

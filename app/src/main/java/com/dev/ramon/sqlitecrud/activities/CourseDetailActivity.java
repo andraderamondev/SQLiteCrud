@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.objects.Course;
@@ -22,14 +23,28 @@ import java.util.Date;
 public class CourseDetailActivity extends AppCompatActivity {
     private Course course;
     private AlertDialog alert;
+    TextView tvDescription;
+    TextView tvClassHours;
+    TextView tvStatus;
+    TextView tvRegisterDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_detail);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        tvDescription = (TextView) findViewById(R.id.tvDescription);
+        tvClassHours = (TextView) findViewById(R.id.tvClassHours);
+        tvStatus = (TextView) findViewById(R.id.tvStatus);
+        tvRegisterDate = (TextView) findViewById(R.id.tvRegisterDate);
 
         getValuesExtras(getIntent().getExtras());
         toolbar.setTitle(course.getName());
+
+        tvDescription.setText(course.getDescription());
+        tvClassHours.setText(course.getClassHours()+"h");
+        tvStatus.setText(course.getStatus()==true ? "Ativo" : "Inativo");
+        tvRegisterDate.setText(course.getRegisterDate());
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
