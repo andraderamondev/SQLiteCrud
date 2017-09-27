@@ -18,7 +18,7 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CourseDB";
     private static final String TABLE = "course";
-    private static final String[] COLUMN = {"id","nome","descricao","classHours"};
+    private static final String[] COLUMN = {"id","name","description","classHours","registerDate","status"};
 
     public BDSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,24 +28,28 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_TABLE = "CREATE TABLE course ("+
                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "nome TEXT,"+
-                "descricao TEXT,"+
-                "classHours INTEGER)";
+                "name TEXT,"+
+                "description TEXT,"+
+                "classHours INTEGER,"+
+                "registerDate DATETIME,"+
+                "status BIT)";
         sqLiteDatabase.execSQL(CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS livros");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS course");
         this.onCreate(sqLiteDatabase);
     }
 
     public void addCourse(Course course) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("nome", course.getName());
-        values.put("descricao", course.getDescription());
+        values.put("name", course.getName());
+        values.put("description", course.getDescription());
         values.put("classHours", new Integer(course.getClassHours()));
+        values.put("registerDate", course.getRegisterDate());
+        values.put("status", new Byte((byte)(course.getStatus()==true ? 1 : 0)));
         db.insert(TABLE, null, values);
         db.close();
     }
@@ -71,7 +75,7 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
 
     public ArrayList<Course> getCourses() {
         ArrayList<Course> list = new ArrayList<Course>();
-        String query = "SELECT * FROM " + TABLE + " ORDER BY id DESC";
+        String query = "SELECT * FROM " + TABLE + " ORDER BY registerDate DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -90,6 +94,8 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
         course.setName(cursor.getString(1));
         course.setDescription(cursor.getString(2));
         course.setClassHours(Integer.parseInt(cursor.getString(3)));
+        course.setRegisterDate(cursor.getString(4));
+        course.setStatus(Integer.parseInt(cursor.getString(5))==1);
         return course;
     }
 }

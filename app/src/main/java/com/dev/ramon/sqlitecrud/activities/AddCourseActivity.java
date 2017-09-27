@@ -6,11 +6,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.dev.ramon.sqlitecrud.BDSQLiteHelper;
@@ -23,6 +25,7 @@ public class AddCourseActivity extends AppCompatActivity {
     EditText etClassHours;
     BDSQLiteHelper SQLHelper;
     Button btSave;
+    Switch swStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,7 @@ public class AddCourseActivity extends AppCompatActivity {
         etDescription = (EditText) findViewById(R.id.etDescription);
         etClassHours = (EditText) findViewById(R.id.etClassHours);
         btSave = (Button) findViewById(R.id.btSave);
+        swStatus = (Switch) findViewById(R.id.switch2);
 
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +56,7 @@ public class AddCourseActivity extends AppCompatActivity {
         c.setName(etName.getText().toString());
         c.setDescription(etDescription.getText().toString());
         c.setClassHours(Integer.parseInt(etClassHours.getText().toString()));
+        c.setStatus(swStatus.isChecked());
         SQLHelper.addCourse(c);
         return true;
     }

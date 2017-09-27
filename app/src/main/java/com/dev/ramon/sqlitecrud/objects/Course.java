@@ -16,10 +16,13 @@ public class Course implements Parcelable {
     private String name;
     private String description;
     private int classHours;
+    private String registerDate;
     private boolean status;
-    public String dt;
 
     public Course() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        this.registerDate = dateFormat.format(date).toString();
     }
 
     protected Course(Parcel in) {
@@ -27,6 +30,7 @@ public class Course implements Parcelable {
         name = in.readString();
         description = in.readString();
         classHours = in.readInt();
+        registerDate = in.readString();
         status = in.readByte() != 0;
     }
 
@@ -36,6 +40,7 @@ public class Course implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeInt(classHours);
+        parcel.writeString(registerDate);
         parcel.writeByte((byte)(status ? 1 : 0));
     }
 
@@ -86,6 +91,14 @@ public class Course implements Parcelable {
 
     public void setClassHours(int classHours) {
         this.classHours = classHours;
+    }
+
+    public String getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(String registerDate) {
+        this.registerDate = registerDate;
     }
 
     public boolean getStatus() {

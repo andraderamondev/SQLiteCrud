@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.dev.ramon.sqlitecrud.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
@@ -66,8 +67,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Course> getAllCourses() {
         dBHelper = new BDSQLiteHelper(this);
         ArrayList<Course> list = new ArrayList<>();
-        for(Course course : dBHelper.getCourses()) {
-            list.add(course);
+        try {
+            for (Course course : dBHelper.getCourses()) {
+                list.add(course);
+            }
+        }catch (Exception E){
+            Toast.makeText(this,"Nenhum registro",Toast.LENGTH_SHORT).show();
         }
         return list;
     }

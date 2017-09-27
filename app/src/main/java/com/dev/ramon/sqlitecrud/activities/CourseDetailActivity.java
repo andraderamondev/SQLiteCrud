@@ -31,11 +31,6 @@ public class CourseDetailActivity extends AppCompatActivity {
         getValuesExtras(getIntent().getExtras());
         toolbar.setTitle(course.getName());
 
-        /*DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        String dt = dateFormat.format(date).toString();
-        Log.i("ERROR","Ops: "+dt);*/
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
