@@ -1,6 +1,7 @@
 package com.dev.ramon.sqlitecrud.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        orderBy = "DESC";
+        SharedPreferences prefs = getSharedPreferences("ordem", MODE_PRIVATE);
+        orderBy = prefs.getString("orderBy", null);
+        if (orderBy == null){
+            orderBy = "DESC";
+        }
         rvCourses = (RecyclerView) findViewById(R.id.rvCourses);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +73,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(id == R.id.action_list){
+            SharedPreferences sharedPreferences = getSharedPreferences("ordem", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             if(orderBy=="DESC"){
                 orderBy = "ASC";
             }else{
                 orderBy = "DESC";
             }
+            editor.putString("orderBy", orderBy);
+            editor.commit();
             addListeners();
             return true;
         }
@@ -83,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     private void addListeners() {
         rvCourses.setHasFixedSize(true);
         rvCourses.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rvCourses.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         rvCourses.setAdapter(new CourseRecycleViewAdapter(getAllCourses(orderBy), new CourseRecycleViewAdapter.OnClickListener() {
             @Override
             public void onClickItemList(Course course, int position) {

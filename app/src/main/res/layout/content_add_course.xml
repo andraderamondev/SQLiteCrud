@@ -86,14 +86,14 @@
         android:elevation="4dp"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:layout_weight="0.9"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="0.9"
             android:gravity="left|center"
             android:text="Status" />
 
