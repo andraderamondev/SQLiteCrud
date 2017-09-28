@@ -1,26 +1,21 @@
 package com.dev.ramon.sqlitecrud.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dev.ramon.sqlitecrud.BDSQLiteHelper;
+import com.dev.ramon.sqlitecrud.helpers.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.objects.Course;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class CourseDetailActivity extends AppCompatActivity {
     private Course course;
@@ -30,57 +25,73 @@ public class CourseDetailActivity extends AppCompatActivity {
     TextView tvStatus;
     TextView tvRegisterDate;
     BDSQLiteHelper SQLHelper;
+    Toolbar toolbar;
+    Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_detail);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         tvDescription = (TextView) findViewById(R.id.tvDescription);
         tvClassHours = (TextView) findViewById(R.id.tvClassHours);
         tvStatus = (TextView) findViewById(R.id.tvStatus);
         tvRegisterDate = (TextView) findViewById(R.id.tvRegisterDate);
 
-        getValuesExtras(getIntent().getExtras());
-        toolbar.setTitle(course.getName());
-
-        tvDescription.setText(course.getDescription());
-        tvClassHours.setText(course.getClassHours()+"h");
-        tvStatus.setText(course.getStatus()==true ? "Ativo" : "Inativo");
-        tvRegisterDate.setText(course.getRegisterDate());
-
+        extras = getIntent().getExtras();
+        getValuesExtras(extras);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getValuesExtras(extras);
+        setValues();
+    }
+
     private void getValuesExtras(Bundle extras) {
-        course = extras.getParcelable("course");
+        SQLHelper = new BDSQLiteHelper(CourseDetailActivity.this);
+        Course c = extras.getParcelable("course");
+        course = SQLHelper.getCourse(c.getId());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_coursedetail, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        if(id == android.R.id.home){
+            finish();
+            return true;
+        }
+
         if (id == R.id.action_delete) {
             showDialog();
             return true;
         }
         if (id == R.id.action_edit) {
+            Intent intent = new Intent(CourseDetailActivity.this, PersistCourseActivity.class);
+            intent.putExtra("course", course);
+            startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setValues(){
+        toolbar.setTitle(course.getName());
+        tvDescription.setText(course.getDescription());
+        tvClassHours.setText(course.getClassHours()+"h");
+        tvStatus.setText(course.getStatus()==true ? "Ativo" : "Inativo");
+        tvRegisterDate.setText(course.getRegisterDate());
     }
 
     public void showDialog(){

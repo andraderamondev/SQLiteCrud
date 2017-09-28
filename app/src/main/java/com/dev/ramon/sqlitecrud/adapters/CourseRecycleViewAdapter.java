@@ -41,6 +41,14 @@ public class CourseRecycleViewAdapter extends RecyclerView.Adapter<CourseRecycle
     @Override
     public void onBindViewHolder(CourseRecycleViewAdapter.ViewHolder holder, int position) {
         holder.tvNome.setText(list.get(position).getName());
+        holder.tvHoras.setText(list.get(position).getRegisterDate());
+        if(list.get(position).getStatus()){
+            holder.tvStatus.setBackgroundResource(R.drawable.shape_active);
+            holder.tvStatus.setText("ativo");
+        }else{
+            holder.tvStatus.setBackgroundResource(R.drawable.shape_inactive);
+            holder.tvStatus.setText("inativo");
+        }
     }
 
     @Override
@@ -50,10 +58,14 @@ public class CourseRecycleViewAdapter extends RecyclerView.Adapter<CourseRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvNome;
+        TextView tvHoras;
+        TextView tvStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvNome = itemView.findViewById(R.id.tvNome);
+            tvHoras = itemView.findViewById(R.id.tvClassHours2);
+            tvStatus = itemView.findViewById(R.id.tvStatus2);
             applyListeners();
         }
 
