@@ -81,6 +81,20 @@ public class BDSQLiteHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public ArrayList<Course> searchCourses(String orderBy,String like) {
+        ArrayList<Course> list = new ArrayList<Course>();
+        String query = "SELECT * FROM " + TABLE + " WHERE name LIKE '%"+like+"%' ORDER BY registerDate "+orderBy;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Course course = parceCourse(cursor);
+                list.add(course);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
     public void removeCourse(Course course){
         db.delete(TABLE, "id = " + course.getId(), null);
         db.close();
