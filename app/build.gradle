@@ -29,5 +29,6 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:26.+'
     compile 'com.android.support:recyclerview-v7:26.0.+'
     compile 'com.android.support:design:26.+'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
     testCompile 'junit:junit:4.12'
 }

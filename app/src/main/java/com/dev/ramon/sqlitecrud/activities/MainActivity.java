@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -26,6 +28,7 @@ import com.dev.ramon.sqlitecrud.helpers.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.adapters.CourseRecycleViewAdapter;
 import com.dev.ramon.sqlitecrud.objects.Course;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
@@ -34,10 +37,8 @@ public class MainActivity extends AppCompatActivity {
     BDSQLiteHelper dBHelper;
     String orderBy;
     Toolbar toolbar;
-    private MenuItem mSearchAction;
-    private boolean isSearchOpened = false;
-    private EditText edtSeach;
-
+    MaterialSearchView searchView;
+    private String LIKE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
 
         SharedPreferences prefs = getSharedPreferences("ordem", MODE_PRIVATE);
         orderBy = prefs.getString("orderBy", null);
@@ -61,30 +64,57 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                LIKE = query;
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                LIKE = newText;
+                doSearch(newText);
+                return false;
+            }
+        });
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
         addListeners();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        addListeners();
+        if(LIKE==null){
+            addListeners();
+        }else{
+            doSearch(LIKE);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if(id == android.R.id.home){
             finish();
             return true;
         }
-
         if(id == R.id.action_list){
             SharedPreferences sharedPreferences = getSharedPreferences("ordem", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -98,26 +128,19 @@ public class MainActivity extends AppCompatActivity {
             addListeners();
             return true;
         }
-
         if(id == R.id.action_search){
-            handleMenuSearch();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        mSearchAction = menu.findItem(R.id.action_search);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public void onBackPressed() {
-        if(isSearchOpened) {
-            handleMenuSearch();
-            return;
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     private void addListeners() {
@@ -146,44 +169,6 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-    protected void handleMenuSearch(){
-        ActionBar action = getSupportActionBar(); //get the actionbar
-        if(isSearchOpened){ //test if the search is open
-            action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true); //show the title in the action bar
-            //hides the keyboard
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
-            //add the search icon in the action bar
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_vector));
-            isSearchOpened = false;
-        } else { //open the search entry
-            action.setDisplayShowCustomEnabled(true); //enable it to display a
-            // custom view in the action bar.
-            action.setCustomView(R.layout.search_bar);//add the custom view
-            action.setDisplayShowTitleEnabled(false); //hide the title
-            edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
-            //this is a listener to do a search when the user clicks on search button
-            edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        doSearch(edtSeach.getText().toString());
-                        return true;
-                    }
-                    return false;
-                }
-            });
-            edtSeach.requestFocus();
-            //open the keyboard focused in the edtSearch
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
-            //add the close icon
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_vector));
-            isSearchOpened = true;
-        }
-    }
-
     private void doSearch(String like) {
         rvCourses.setHasFixedSize(true);
         rvCourses.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -206,15 +191,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         }));
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_A: {
-                return true;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }
