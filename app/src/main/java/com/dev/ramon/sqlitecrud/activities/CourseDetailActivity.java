@@ -73,7 +73,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_delete) {
-            showDialog();
+            deleteCourseDialog();
             return true;
         }
         if (id == R.id.action_edit) {
@@ -90,19 +90,19 @@ public class CourseDetailActivity extends AppCompatActivity {
         toolbar.setTitle(course.getName());
         tvDescription.setText(course.getDescription());
         tvClassHours.setText(course.getClassHours()+"h");
-        tvStatus.setText(course.getStatus()==true ? "Ativo" : "Inativo");
-        tvRegisterDate.setText(course.getRegisterDate());
+        tvStatus.setText(course.getStatus()==true ? getString(R.string.course_active) : getString(R.string.course_inactive));
+        tvRegisterDate.setText(course.getRegisterDateFormated());
     }
 
-    public void showDialog(){
+    public void deleteCourseDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Atenção");
-        builder.setMessage("Deseja realmente excluir esse curso?");
+        builder.setTitle(getString(R.string.dialog_title));
+        builder.setMessage(getString(R.string.dialog_msg));
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 SQLHelper = new BDSQLiteHelper(CourseDetailActivity.this);
                 SQLHelper.removeCourse(course);
-                Toast.makeText(CourseDetailActivity.this,"Curso removido",Toast.LENGTH_SHORT).show();
+                Toast.makeText(CourseDetailActivity.this,getString(R.string.msg_remove),Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

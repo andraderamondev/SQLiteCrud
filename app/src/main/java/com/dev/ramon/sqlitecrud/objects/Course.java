@@ -2,10 +2,11 @@ package com.dev.ramon.sqlitecrud.objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import android.util.Log;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Ramon Dev on 21/09/2017.
@@ -107,5 +108,23 @@ public class Course implements Parcelable {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getRegisterDateFormated(){
+        String inputString = this.getRegisterDate();
+        Locale brasil = new Locale("pt", "BR");
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",brasil);
+        Date inputDate = null;
+        try {
+            inputDate = f.parse(inputString);
+        } catch (Exception e) {
+            Log.e("ERROR",e.getMessage());
+        }
+
+        if(inputDate!=null) {
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            inputString = dateFormat.format(inputDate).toString();
+        }
+        return inputString;
     }
 }

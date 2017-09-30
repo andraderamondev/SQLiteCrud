@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.objects.Course;
-
 import java.util.ArrayList;
 
 /**
@@ -41,7 +39,7 @@ public class CourseRecycleViewAdapter extends RecyclerView.Adapter<CourseRecycle
     @Override
     public void onBindViewHolder(CourseRecycleViewAdapter.ViewHolder holder, int position) {
         holder.tvNome.setText(list.get(position).getName());
-        holder.tvHoras.setText(list.get(position).getRegisterDate());
+        holder.tvHoras.setText(list.get(position).getRegisterDateFormated());
         if(list.get(position).getStatus()){
             holder.tvStatus.setBackgroundResource(R.drawable.shape_active);
             holder.tvStatus.setText("ativo");

@@ -27,7 +27,7 @@ public class PersistCourseActivity extends AppCompatActivity {
     Switch swStatus;
     SeekBar sbClassHours;
     TextView tvClassHours;
-    int progress = 10;
+    int progress = 5;
     private Course course;
     LinearLayout ll;
     @Override
@@ -58,7 +58,7 @@ public class PersistCourseActivity extends AppCompatActivity {
         }
         sbClassHours = (SeekBar) findViewById(R.id.seekBar);
         tvClassHours = (TextView) findViewById(R.id.tvClassHours);
-        tvClassHours.setText(String.valueOf(course.getClassHours()>10 ? course.getClassHours() : 10)+"h");
+        tvClassHours.setText(String.valueOf(course.getClassHours()>5 ? course.getClassHours() : 5)+"h");
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,14 +67,14 @@ public class PersistCourseActivity extends AppCompatActivity {
         });
 
         sbClassHours.setMax(100);
-        sbClassHours.setProgress(course.getClassHours()>10 ? course.getClassHours() : 10);
-        progress = course.getClassHours()>10 ? course.getClassHours() : 10;
+        sbClassHours.setProgress(course.getClassHours()>5 ? course.getClassHours() : 5);
+        progress = course.getClassHours()>5 ? course.getClassHours() : 5;
         sbClassHours.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
-                if(progress<10){
-                    sbClassHours.setProgress(10);
+                if(progress<5){
+                    sbClassHours.setProgress(5);
                 }
                 tvClassHours.setText(progress + "h");
             }
@@ -111,26 +111,26 @@ public class PersistCourseActivity extends AppCompatActivity {
         if(!etName.getText().toString().isEmpty()){
             course.setName(etName.getText().toString());
         }else{
-            etName.setError("Preencha esse campo");
+            etName.setError(getString(R.string.msg_input_error));
             error++;
         }
         if(!etDescription.getText().toString().isEmpty()){
             course.setDescription(etDescription.getText().toString());
         }else{
-            etDescription.setError("Preencha esse campo");
+            etDescription.setError(getString(R.string.msg_input_error));
             error++;
         }
         course.setClassHours(progress);
         course.setStatus(swStatus.isChecked());
         if(error==0){
-            String msg = "";
+            String msg;
             if(course.getId()>0){
                 SQLHelper.updateCourse(course);
                 msg = "Curso "+course.getName()+" atualizado";
             }else{
                 course.setId(1);
                 SQLHelper.addCourse(course);
-                msg = "Curso cadastrado";
+                msg = getString(R.string.msg_insert);
             }
             Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
             finish();

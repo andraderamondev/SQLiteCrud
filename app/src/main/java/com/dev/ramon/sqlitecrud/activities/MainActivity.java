@@ -1,29 +1,17 @@
 package com.dev.ramon.sqlitecrud.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.dev.ramon.sqlitecrud.helpers.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.adapters.CourseRecycleViewAdapter;
@@ -64,29 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                LIKE = query;
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                LIKE = newText;
-                doSearch(newText);
-                return false;
-            }
-        });
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-                //Do some magic
-            }
-            @Override
-            public void onSearchViewClosed() {
-                //Do some magic
-            }
-        });
         addListeners();
     }
 
@@ -105,6 +70,28 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                LIKE = newText;
+                doSearch(newText);
+                return false;
+            }
+        });
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+            }
+            @Override
+            public void onSearchViewClosed() {
+            }
+        });
+
         return true;
     }
 
