@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.dev.ramon.sqlitecrud.R;
-import com.dev.ramon.sqlitecrud.objects.Course;
+import com.dev.ramon.sqlitecrud.models.Course;
 import java.util.ArrayList;
 
 /**

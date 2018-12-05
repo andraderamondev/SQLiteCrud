@@ -15,9 +15,8 @@ import android.widget.Toast;
 import com.dev.ramon.sqlitecrud.helpers.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
 import com.dev.ramon.sqlitecrud.adapters.CourseRecycleViewAdapter;
-import com.dev.ramon.sqlitecrud.objects.Course;
+import com.dev.ramon.sqlitecrud.models.Course;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {

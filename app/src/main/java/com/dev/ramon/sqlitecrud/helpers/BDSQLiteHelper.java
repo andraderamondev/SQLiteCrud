@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.dev.ramon.sqlitecrud.objects.Course;
+import com.dev.ramon.sqlitecrud.models.Course;
 
 import java.util.ArrayList;
 

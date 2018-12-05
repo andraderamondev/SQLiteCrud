@@ -1,4 +1,4 @@
-package com.dev.ramon.sqlitecrud.objects;
+package com.dev.ramon.sqlitecrud.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

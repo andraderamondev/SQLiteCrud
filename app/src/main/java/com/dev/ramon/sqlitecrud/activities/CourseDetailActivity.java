@@ -6,16 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.dev.ramon.sqlitecrud.helpers.BDSQLiteHelper;
 import com.dev.ramon.sqlitecrud.R;
-import com.dev.ramon.sqlitecrud.objects.Course;
+import com.dev.ramon.sqlitecrud.models.Course;
 
 public class CourseDetailActivity extends AppCompatActivity {
     private Course course;
